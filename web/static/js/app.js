@@ -168,4 +168,5 @@ function setupScaling() {
     pageAlignHorizontally: true,
     pageAlignVertically: true,
   })
+  // game.scale.forceOrientation(true);
 }
