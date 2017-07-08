@@ -9,6 +9,8 @@ export default class Match extends Phaser.State {
     this.gameState = []
     this.spriteCache = []
     this.wrapMatrix = []
+    this.trailCounter = 0
+    this.trailInterval = 5
   }
 
   preload() {
@@ -23,6 +25,70 @@ export default class Match extends Phaser.State {
     this.setupSounds()
     this.setupWorld()
   }
+
+  update() {
+
+    /// Input
+    this.physics.arcade.moveToPointer(this.player, 400)
+    this.player.rotation = this.physics.arcade.angleToPointer(this.player)
+    if (Phaser.Rectangle.contains(this.player.body, this.input.worldX, this.input.worldY)) {
+      this.player.body.velocity.setTo(0, 0)
+    }
+
+    // Drop disconnected sprites
+    for (let charId in this.spriteCache) {
+      if (this.gameState.every(c => c.id != charId)) {
+        for (let sprite of this.spriteCache[charId]) {
+          sprite.body = null
+          sprite.destroy()
+        }
+        this.spriteCache.splice(charId, 1)
+      }
+    }
+
+    // Update and cache connected sprites
+    for (let char of this.gameState) {
+      let spriteMatrix = this.spriteCache[char.id] = this.spriteCache[char.id] || addSpriteMatrix()
+      for (let [i, m] of wrapMatrix.entries()) {
+        let sprite = spriteMatrix[i]
+        sprite.x = char.pos.x + m.x
+        sprite.y = char.pos.y + m.y
+        sprite.rotation = char.rot
+      }
+    }
+
+    if (this.trailCounter++ > this.trailInterval) {
+      this.trailCounter = 0
+
+      for (let pos of this.gameState.map(c => c.pos).concat(this.player)) {
+        // Draw trail
+        let trail = this.add.graphics(0, 0)
+        for (let x of [0 - this.world.bounds.width, 0, this.world.bounds.width])
+          for (let y of [0 - this.world.bounds.height, 0, this.world.bounds.height]) {
+            trail.beginFill(0xffffff)
+            trail.drawCircle(x + pos.x, y + pos.y, 3)
+            trail.endFill()
+          }
+        setTimeout(() => trail.destroy(), 3000) // Keep trail 3 seconds long
+      }
+    }
+
+    // Wrap this.player into this world
+    const boundsWidth = this.world.bounds.width
+    const boundsHeight = this.world.bounds.height
+    if (this.player.x > boundsWidth)
+      this.player.x = this.player.x - boundsWidth
+    if (this.player.x < 0)
+      this.player.x = boundsWidth + this.player.x
+    if (this.player.y > boundsHeight)
+      this.player.y = this.player.y - boundsHeight
+    if (this.player.y < 0)
+      this.player.y = boundsHeight + this.player.y
+
+    this.pushStateToServer()
+  }
+
+  // render() {}
 
   //////////////////////
   // Helper Functions //
@@ -94,113 +160,43 @@ export default class Match extends Phaser.State {
     sprite.body.setCircle(sprite.width / 2, 0, 0)
     return sprite
   }
+
+  pushStateToServer() {
+    const { offsetX, offsetY, body: { rotation, position: { x, y } } } = this.player
+    this.channel.push("player_state", { pos: { x: x + offsetX, y: y + offsetY }, rot: Phaser.Math.degToRad(rotation) })
+  }
+
+  addSpriteMatrix() {
+    let matrix = []
+    for (let i = 0; i < wrapMatrix.length; ++i)
+      matrix.push(addSprite())
+    return matrix
+  }
+
+  toggleMute(/* button, pointer, isOver */) {
+    chantey.mute = !chantey.mute
+  }
+
+  setupChat() {
+    const chatInput = document.querySelector("#chat-input")
+    const messagesContainer = document.querySelector("#messages")
+
+    chatInput.addEventListener("keypress", event => {
+      if (event.keyCode === 13) {
+        const message = chatInput.value.trim()
+        if (message !== '') {
+          this.channel.push("new_chatmsg", { body: chatInput.value })
+          chatInput.value = ""
+        }
+      }
+    })
+
+    this.channel.on("new_chatmsg", payload => {
+      const messageItem = document.createElement("li")
+      const now = new Date()
+      messageItem.innerText = `[${now.getHours()}:${(now.getMinutes() < 10 ? '0' : '') + now.getMinutes()}] ${payload.user}: ${payload.body}`
+      messagesContainer.insertBefore(messageItem, messagesContainer.firstChild)
+      setTimeout(() => messagesContainer.removeChild(messageItem), 8000)
+    })
+  }
 }
-
-
-
-
-//   update() {
-
-//     /// Input
-//     this.physics.arcade.moveToPointer(this.player, 400)
-//     this.player.rotation = this.physics.arcade.angleToPointer(this.player)
-//     if (Phaser.Rectangle.contains(this.player.body, this.input.worldX, this.input.worldY)) {
-//       this.player.body.velocity.setTo(0, 0)
-//     }
-
-//     // Drop disconnected sprites
-//     for (let charId in spriteCache) {
-//       if (this.gameState.every(c => c.id != charId)) {
-//         for (let sprite of spriteCache[charId]) {
-//           sprite.body = null
-//           sprite.destroy()
-//         }
-//         spriteCache.splice(charId, 1)
-//       }
-//     }
-
-//     // Update and cache connected sprites
-//     for (let char of this.gameState) {
-//       let spriteMatrix = spriteCache[char.id] = spriteCache[char.id] || addSpriteMatrix()
-//       for (let [i, m] of wrapMatrix.entries()) {
-//         let sprite = spriteMatrix[i]
-//         sprite.x = char.pos.x + m.x
-//         sprite.y = char.pos.y + m.y
-//         sprite.rotation = char.rot
-//       }
-//     }
-
-//     if (trailCounter++ > trailInterval) {
-//       trailCounter = 0
-
-//       for (let pos of this.gameState.map(c => c.pos).concat(this.player)) {
-//         // Draw trail
-//         let trail = this.add.graphics(0, 0)
-//         for (let x of [0 - this.world.bounds.width, 0, this.world.bounds.width])
-//           for (let y of [0 - this.world.bounds.height, 0, this.world.bounds.height]) {
-//             trail.beginFill(0xffffff)
-//             trail.drawCircle(x + pos.x, y + pos.y, 3)
-//             trail.endFill()
-//           }
-//         setTimeout(() => trail.destroy(), 3000) // Keep trail 3 seconds long
-//       }
-//     }
-
-//     // Wrap this.player into this world
-//     const boundsWidth = this.world.bounds.width
-//     const boundsHeight = this.world.bounds.height
-//     if (this.player.x > boundsWidth)
-//       this.player.x = this.player.x - boundsWidth
-//     if (this.player.x < 0)
-//       this.player.x = boundsWidth + this.player.x
-//     if (this.player.y > boundsHeight)
-//       this.player.y = this.player.y - boundsHeight
-//     if (this.player.y < 0)
-//       this.player.y = boundsHeight + this.player.y
-
-//     pushStateToServer()
-//   }
-
-//   render() {
-
-//   }
-// }
-
-// function pushStateToServer() {
-//   const { offsetX, offsetY, body: { rotation, position: { x, y } } } = this.player
-//   this.channel.push("this.player_state", { pos: { x: x + offsetX, y: y + offsetY }, rot: Phaser.Math.degToRad(rotation) })
-// }
-
-// function addSpriteMatrix() {
-//   let matrix = []
-//   for (let i = 0; i < wrapMatrix.length; ++i)
-//     matrix.push(addSprite())
-//   return matrix
-// }
-
-// function toggleMute(/* button, pointer, isOver */) {
-//   chantey.mute = !chantey.mute
-// }
-
-// function setupChat() {
-//   const chatInput = document.querySelector("#chat-input")
-//   const messagesContainer = document.querySelector("#messages")
-
-//   chatInput.addEventListener("keypress", event => {
-//     if (event.keyCode === 13) {
-//       const message = chatInput.value.trim()
-//       if (message !== '') {
-//         this.channel.push("new_chatmsg", { body: chatInput.value })
-//         chatInput.value = ""
-//       }
-//     }
-//   })
-
-//   this.channel.on("new_chatmsg", payload => {
-//     const messageItem = document.createElement("li")
-//     const now = new Date()
-//     messageItem.innerText = `[${now.getHours()}:${(now.getMinutes() < 10 ? '0' : '') + now.getMinutes()}] ${payload.user}: ${payload.body}`
-//     messagesContainer.insertBefore(messageItem, messagesContainer.firstChild)
-//     setTimeout(() => messagesContainer.removeChild(messageItem), 8000)
-//   })
-// }
