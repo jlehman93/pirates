@@ -21,7 +21,7 @@ import "phoenix_html"
 import { gameChannel } from "./socket"
 
 
-var game = new Phaser.Game('100', '100', Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(1920, 1080, Phaser.AUTO, null, { preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
@@ -38,6 +38,7 @@ var spriteCache = [];
 var wrapMatrix = [];
 
 function create() {
+  setupScaling();
 
   game.stage.backgroundColor = "#0000FF";
   // TODO get better mute button asset, size it correctly, add frames
@@ -51,7 +52,6 @@ function create() {
   game.stage.disableVisibilityChange = true;
 
   player = addSprite();
-  player.body.debug = true;
   chantey = game.add.audio('chantey');
   chantey.loopFull(0.3);
   chantey.mute = true; // remember initial mute state
@@ -131,8 +131,6 @@ function update() {
   if (player.y < 0)
     player.y = boundsHeight + player.y;
 
-  game.debug.body(player);
-
   pushStateToServer();
 }
 
@@ -162,4 +160,12 @@ function addSpriteMatrix() {
 
 function toggleMute(/* button, pointer, isOver */) {
   chantey.mute = !chantey.mute
+}
+
+function setupScaling() {
+  Object.assign(game.scale, {
+    scaleMode: Phaser.ScaleManager.SHOW_ALL,
+    pageAlignHorizontally: true,
+    pageAlignVertically: true,
+  })
 }
