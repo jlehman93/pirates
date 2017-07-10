@@ -3,10 +3,9 @@ language: elixir
 elixir:
 
   - 1.2
-install:
-  - npm install
 
 script:
+  - npm install
   - mix deps.get --only prod
   - MIX_ENV=prod mix compile
   - brunch build --production
