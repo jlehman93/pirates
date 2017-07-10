@@ -1,0 +1,15 @@
+language: elixir
+elixir:
+  -1.2
+
+script:
+  - mix deps.get --only prod
+  - MIX_ENV=prod mix compile
+  - brunch build --production
+  - MIX_ENV=prod mix phoenix.digest
+  - PORT=4001 MIX_ENV=prod mix phoenix.server
+deploy:
+  provider: heroku
+  app: pirates-testbuild
+  api-key: 7f45ff0f-2cd3-46db-abbb-ad198dae8392
+
