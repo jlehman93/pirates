@@ -6,7 +6,8 @@ elixir:
 
 script:
   - npm install
-  - mix deps.get --only prod
+  - npm install ./deps/phoenix
+  - npm install ./deps/phoenix_html
   - MIX_ENV=prod mix compile
   - brunch build --production
   - MIX_ENV=prod mix phoenix.digest
