@@ -6,7 +6,7 @@
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
-    "brunch": "2.7.4",
+    "brunch": "2.7.4"
   },
   "devDependencies": {
     "babel-brunch": "~6.0.0",
