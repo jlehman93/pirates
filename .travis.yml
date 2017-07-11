@@ -1,13 +1,14 @@
 language: elixir
 
 elixir:
-
   - 1.2
 
 script:
+
   - npm install
   - npm install ./deps/phoenix
   - npm install ./deps/phoenix_html
+  - mix deps.get --only prod
   - MIX_ENV=prod mix compile
   - brunch build --production
   - MIX_ENV=prod mix phoenix.digest
