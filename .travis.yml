@@ -3,6 +3,9 @@ language: elixir
 elixir:
   - 1.2
 
+before_install:
+  - nvm install 6.10
+
 script:
 
   - npm install
