@@ -4,7 +4,7 @@ elixir:
   - 1.4
 
 before_install:
-  - nvm install 8.x
+  - nvm install 8
 
 script:
 
