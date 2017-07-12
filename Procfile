@@ -1,1 +1,1 @@
-web: yes | iex -S mix phoenix.server
+web: MIX_ENV=prod mix phoenix.server
