@@ -17,8 +17,15 @@ script:
   - mix phoenix.digest
 
 deploy:
-  skip_cleanup: true
-  provider: heroku
-  app: pirates-testbuild
-  buildpack: https://github.com/HashNuke/heroku-buildpack-elixir.git
-  api-key: 7f45ff0f-2cd3-46db-abbb-ad198dae8392
+  - provider: heroku
+    app: pirates-testbuild
+    buildpack: https://github.com/HashNuke/heroku-buildpack-elixir.git
+    api-key: 7f45ff0f-2cd3-46db-abbb-ad198dae8392
+    skip_cleanup: true
+    branch: master
+
+  - provider: heroku
+    app: pirates-branchtest
+    buildpack: https://github.com/HashNuke/heroku-buildpack-elixir.git
+    api-key: 7f45ff0f-2cd3-46db-abbb-ad198dae8392
+    skip_cleanup: true

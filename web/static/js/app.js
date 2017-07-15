@@ -39,7 +39,7 @@ var wrapMatrix = [];
 
 function create() {
 
-  game.stage.backgroundColor = "#0000FF";
+  game.stage.backgroundColor = "#FF0000";
   // TODO get better mute button asset, size it correctly, add frames
   const muteButton = game.add.button(10, 10, 'mute', toggleMute)
   muteButton.height = 50;
