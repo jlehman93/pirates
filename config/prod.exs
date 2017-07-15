@@ -13,7 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :pirates, Pirates.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "pirates-branchtest.herokuapp.com", port: 443],
+  url: [scheme: "https", host: "pirates-branch-jb.herokuapp.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/manifest.json"
 
