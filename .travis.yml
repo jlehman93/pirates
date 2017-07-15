@@ -6,6 +6,11 @@ elixir:
 before_install:
   - nvm install 8
 
+cache:
+  directories:
+    - _build
+    - deps
+    
 script:
 
   - npm install
