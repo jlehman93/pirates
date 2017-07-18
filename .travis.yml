@@ -31,9 +31,9 @@ deploy:
       branch: master
 
   - provider: heroku
-    app: pirates-branch-jb
+    app: pirates-branch-c
     buildpack: https://github.com/HashNuke/heroku-buildpack-elixir.git
     api-key: 7f45ff0f-2cd3-46db-abbb-ad198dae8392
     skip_cleanup: true
     on:
-      branch: jb-somerandom-branch
+      branch: jb-myrandom-branch
