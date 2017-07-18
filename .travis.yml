@@ -27,7 +27,7 @@ deploy:
 
   - provider: heroku
     app: pirates-branch-c
-    api_key: $HEROKU_API_KEY 
+    api_key: 75a65060-c8a2-4eaa-ae0c-5ee8bd53fdb5 
     skip_cleanup: true
     on:
       branch: c-myrandom-branch
