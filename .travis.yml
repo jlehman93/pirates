@@ -20,16 +20,14 @@ deploy:
   - provider: heroku
     app: pirates-deploy
     buildpack: https://github.com/HashNuke/heroku-buildpack-elixir.git
-    api_key:
-      secure: "f7plerlCf3xa4oHic8tLTWPVFlplF9Kp+Prpa91/lfiR63/i7+hWHzjlPbwJsulfpSRrlxGeWmCb1XVANFYE99xuT6Jiv/aFNfkd+racTWQe3oqc4pCGC31gCF1KmmCJ/NUtiuiaXLPgGhz2jCWobZC+mIqbb7/2PFFB+DFIOM/uXi6nl05Oa9IODtNIf0mjf4byK5aP253aizOecy1CSLJt2tyAS6VXK7LbsbICTWvvAtZEbpA8Gxr3GxZpYLyC6cT8xOE39FJk1VQ4kt1tnx0n5DcpNOAri6MVY05QGMyRBYM60JAIth31o+BXCfbRAxTxrdtay/+TndLQ149ScQzTXa6zhH3ReGxGfdP2r5zZIWJPXmDWf3rgu9gSn6onc74xDN2TSsp0itkO8DQX8p86SbOPzVKdT6VOcxV3379zQnXtgLktdc/5m2UkpyVNvVO4s8k4F/ZSp+OQynWeO2pYDta3FL7zCGZj6cK4eMphgEdG44Bu/iGEDafW03W09U9JZKKTpYPo9tk50PH05Lv3AVOgQTBcwb/f84JtgCPUsnROdmh9uVHjSt0/1pk76SvOv1knHX1URD2X0zkKg7g5D1aeoH+AYXsLRodujKpk4CiEFyvZ8Jt/+6Lb++4msVUURCiHhbMrnugpVwgucNouPilnPhrnomRDNteUslU="
+    api_key: HEROKU_API_KEY
     skip_cleanup: true
     on:
       branch: master
-      
+
   - provider: heroku
     app: pirates-branch-c
-    api_key:
-      secure: "f7plerlCf3xa4oHic8tLTWPVFlplF9Kp+Prpa91/lfiR63/i7+hWHzjlPbwJsulfpSRrlxGeWmCb1XVANFYE99xuT6Jiv/aFNfkd+racTWQe3oqc4pCGC31gCF1KmmCJ/NUtiuiaXLPgGhz2jCWobZC+mIqbb7/2PFFB+DFIOM/uXi6nl05Oa9IODtNIf0mjf4byK5aP253aizOecy1CSLJt2tyAS6VXK7LbsbICTWvvAtZEbpA8Gxr3GxZpYLyC6cT8xOE39FJk1VQ4kt1tnx0n5DcpNOAri6MVY05QGMyRBYM60JAIth31o+BXCfbRAxTxrdtay/+TndLQ149ScQzTXa6zhH3ReGxGfdP2r5zZIWJPXmDWf3rgu9gSn6onc74xDN2TSsp0itkO8DQX8p86SbOPzVKdT6VOcxV3379zQnXtgLktdc/5m2UkpyVNvVO4s8k4F/ZSp+OQynWeO2pYDta3FL7zCGZj6cK4eMphgEdG44Bu/iGEDafW03W09U9JZKKTpYPo9tk50PH05Lv3AVOgQTBcwb/f84JtgCPUsnROdmh9uVHjSt0/1pk76SvOv1knHX1URD2X0zkKg7g5D1aeoH+AYXsLRodujKpk4CiEFyvZ8Jt/+6Lb++4msVUURCiHhbMrnugpVwgucNouPilnPhrnomRDNteUslU="
+    api_key: HEROKU_API_KEY
     skip_cleanup: true
     on:
       branch: c-myrandom-branch
