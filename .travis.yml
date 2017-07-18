@@ -20,14 +20,14 @@ deploy:
   - provider: heroku
     app: pirates-deploy
     buildpack: https://github.com/HashNuke/heroku-buildpack-elixir.git
-    api_key: HEROKU_API_KEY
+    api_key: $HEROKU_API_KEY
     skip_cleanup: true
     on:
       branch: master
 
   - provider: heroku
     app: pirates-branch-c
-    api_key: HEROKU_API_KEY
+    api_key: $HEROKU_API_KEY 
     skip_cleanup: true
     on:
       branch: c-myrandom-branch
