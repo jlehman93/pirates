@@ -1,12 +1,16 @@
 language: elixir
+
 elixir:
 - 1.4
+
 before_install:
 - nvm install 8
+
 cache:
   directories:
   - _build
   - deps
+  
 script:
 - npm install
 - npm install ./deps/phoenix
@@ -15,13 +19,13 @@ script:
 - MIX_ENV=prod mix compile
 - brunch build --production
 - mix phoenix.digest
+
 deploy:
-  matrix:
   - provider: heroku
     app: pirates-deploy
     buildpack: https://github.com/HashNuke/heroku-buildpack-elixir.git
     api_key:
-      secure: Ac6Y341ieSgTxdcGoD3rADx6P2qYhx94QJ+Zkn3xS+KkldZPk43C+U/EOPNIhrsPyCqXf20s0ytR35L1GM/vPod59IV+a3H2QeUN0AtzOwfaDi/9E6pGPXeORIGPaO1pDHqzIEJmm+5Li9ZExVl4sWHMr3dOD0yrC5UCNju0i0ypxInFDaC2+W/zRfqnvNWk08ZRBoHx20D9ouAk+in/vfYEtel/vlbgCnLUB3BQFGrVxJGpp3FL4ZSs7xFpzFpMbWeYBF03nzeXrzrOZDKwm0WFMhGpQZUHngH/efyuT11GSQuT/lx78JlyZ9dxYtt5LNewtttB8+2yH4Ad/SGLtsVt/HE99lmyEuPD0vfPxEw0eduCOttUNsWy0+mD/DWTa1+Y0nZqlkL9/uFDq2+cgPuwLMCSL0C6cn6mENkjtEZ/bZR4eajtlZnZauvbxnXl+QbA/Jm9H3KbCJtzuSs6PjTPqWRtzFdGXah8Ljr/NiUW3rKjEy3grLi0B5UIMWnal27PdyyibhGwOrSoaH+/bgmhNQGh6LeHFLue7X4IHAVQl4wciA4wGeRXDS8+8ovpFTlhhiKz1AOou8KvqSKS/7Dw6mAxpmlPtv81eiDJzzcnHndf4HWsaojkPqNSJHFaP2E63kVDGRPgbTvKrOKphU4uuWWB6DyetZiVAiZ7r8I=
+      secure: owL4E5CHX8i0VUHahV4kscbbDB4RW9rEv7jL2YZVQginEu/X0urDIGrX6VWJvfJEJYGlJ4t/GFnkblTHL4kZNOn1QlIAriM3mBHQbqtcjI3rV106KrOtub8X9pToFTiAs4DaBOo95QwanmwVhCRjPnCDQYo2SeEXFGWhUj/liYu6TP08RYX8WSI9rlJ8xVD0r7ii4MrZE6Da81hRQJ1VqmG9Tk5yzrs7phVpJdkrJCHI9bWPT6h1JyDkLvz/rdmSCwlBPQzhPXZXSjvtiUnJxU4Z26OnZuY6sRuLB8/zBydVBxJCPm9MxxmJQYPC405OYMhcyNt9GbIz7WRUvX+bggK0A3q5JDfZh5jOjGTqhveoXd9Nho2JbltPWInlmEcpTftanANul/XUaoHpEMY+FMyrwnqThXsjgIPJhvmY29npU4Xw3TLz4Mx67Q6MmFL3cbRWMlu8FTz3gx5fuLKzkK88SdEDm1ghGVR0pCLHruwyIPw77y/z3DbYdHP0HlEkWDYAOWgmdTuZv5rSRzNo0SNfzXSkZzHmgYTUmaPV8YxD/Ln+9/4RsHEfkaGIFHLC7xG1bLbzUmdu5mELBsz0bRYLtkDcSYkpjfQXqfeETG+kzFyNxn7AzQRhN2ut1z/PKS3+btnfPE0e3ePeGqhMTRqqT1/OXSh9bbh9zF3AI0I=
     skip_cleanup: true
     on:
       branch: master
@@ -29,8 +33,7 @@ deploy:
   - provider: heroku
     app: pirates-branch-c
     api_key:
-      secure: Ac6Y341ieSgTxdcGoD3rADx6P2qYhx94QJ+Zkn3xS+KkldZPk43C+U/EOPNIhrsPyCqXf20s0ytR35L1GM/vPod59IV+a3H2QeUN0AtzOwfaDi/9E6pGPXeORIGPaO1pDHqzIEJmm+5Li9ZExVl4sWHMr3dOD0yrC5UCNju0i0ypxInFDaC2+W/zRfqnvNWk08ZRBoHx20D9ouAk+in/vfYEtel/vlbgCnLUB3BQFGrVxJGpp3FL4ZSs7xFpzFpMbWeYBF03nzeXrzrOZDKwm0WFMhGpQZUHngH/efyuT11GSQuT/lx78JlyZ9dxYtt5LNewtttB8+2yH4Ad/SGLtsVt/HE99lmyEuPD0vfPxEw0eduCOttUNsWy0+mD/DWTa1+Y0nZqlkL9/uFDq2+cgPuwLMCSL0C6cn6mENkjtEZ/bZR4eajtlZnZauvbxnXl+QbA/Jm9H3KbCJtzuSs6PjTPqWRtzFdGXah8Ljr/NiUW3rKjEy3grLi0B5UIMWnal27PdyyibhGwOrSoaH+/bgmhNQGh6LeHFLue7X4IHAVQl4wciA4wGeRXDS8+8ovpFTlhhiKz1AOou8KvqSKS/7Dw6mAxpmlPtv81eiDJzzcnHndf4HWsaojkPqNSJHFaP2E63kVDGRPgbTvKrOKphU4uuWWB6DyetZiVAiZ7r8I=
+      secure: owL4E5CHX8i0VUHahV4kscbbDB4RW9rEv7jL2YZVQginEu/X0urDIGrX6VWJvfJEJYGlJ4t/GFnkblTHL4kZNOn1QlIAriM3mBHQbqtcjI3rV106KrOtub8X9pToFTiAs4DaBOo95QwanmwVhCRjPnCDQYo2SeEXFGWhUj/liYu6TP08RYX8WSI9rlJ8xVD0r7ii4MrZE6Da81hRQJ1VqmG9Tk5yzrs7phVpJdkrJCHI9bWPT6h1JyDkLvz/rdmSCwlBPQzhPXZXSjvtiUnJxU4Z26OnZuY6sRuLB8/zBydVBxJCPm9MxxmJQYPC405OYMhcyNt9GbIz7WRUvX+bggK0A3q5JDfZh5jOjGTqhveoXd9Nho2JbltPWInlmEcpTftanANul/XUaoHpEMY+FMyrwnqThXsjgIPJhvmY29npU4Xw3TLz4Mx67Q6MmFL3cbRWMlu8FTz3gx5fuLKzkK88SdEDm1ghGVR0pCLHruwyIPw77y/z3DbYdHP0HlEkWDYAOWgmdTuZv5rSRzNo0SNfzXSkZzHmgYTUmaPV8YxD/Ln+9/4RsHEfkaGIFHLC7xG1bLbzUmdu5mELBsz0bRYLtkDcSYkpjfQXqfeETG+kzFyNxn7AzQRhN2ut1z/PKS3+btnfPE0e3ePeGqhMTRqqT1/OXSh9bbh9zF3AI0I=
     skip_cleanup: true
     on:
       branch: c-myrandom-branch
-  
